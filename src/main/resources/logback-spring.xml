@@ -1,0 +1,27 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %highlight([%-5level]) %highlight(%logger{1}) - %highlight(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <root level="OFF">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="c.l.Application" level="INFO, ERROR">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.kanban" level="INFO, ERROR"/>
+
+    <logger name="org.hibernate" level="OFF"/>
+    <logger name="o.h.o.c.pooling" level="OFF"/>
+    <logger name="o.a.c.c.C.[.[.[/]" level="OFF"/>
+    <logger name="o.h.o.deprecation" level="OFF"/>
+    <logger name="c.z.h.p.HikariPool" level="OFF"/>
+    <logger name="org.springframework" level="OFF"/>
+    <logger name="org.hibernate.Version" level="OFF"/>
+    <logger name="c.z.h.HikariDataSource" level="OFF"/>
+    <logger name="org.springframework.boot" level="OFF"/>
+</configuration>
