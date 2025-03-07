@@ -49,23 +49,23 @@ public class ProjectMapper {
         return project;
     }
 
-
     public static void updateEntityFromRequest(Project projectFromDB, ProjectRequest request, List<Client> clientsFromDB) {
         projectFromDB.setName(request.getName());
         projectFromDB.setStatus(ProjectStatus.fromDescription(request.getStatus()));
 
-        if (request.getClientIds() != null && !request.getClientIds().isEmpty()) {
-            List<Client> updatedClients = clientsFromDB.stream()
-                    .filter(client -> request.getClientIds().contains(client.getId()))
-                    .collect(Collectors.toList());
+        List<Client> updatedClients = clientsFromDB.stream()
+                .filter(client -> request.getClientIds().contains(client.getId()))
+                .toList();
 
-            updatedClients.forEach(client -> client.setProject(projectFromDB));
-            projectFromDB.setClients(updatedClients);
-        } else {
-            if (projectFromDB.getClients() != null)
-                projectFromDB.getClients().forEach(client -> client.setProject(null));
-            projectFromDB.setClients(null);
-        }
+        projectFromDB.getClients().forEach(client -> {
+            if (!updatedClients.contains(client)) {
+                client.setProject(null);
+            }
+        });
+
+        projectFromDB.getClients().clear();
+        projectFromDB.getClients().addAll(updatedClients);
+
+        updatedClients.forEach(client -> client.setProject(projectFromDB));
     }
-
 }

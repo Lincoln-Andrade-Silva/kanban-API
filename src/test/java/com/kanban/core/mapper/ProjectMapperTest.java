@@ -7,6 +7,7 @@ import com.kanban.core.domain.model.client.Client;
 import com.kanban.core.domain.model.project.Project;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -103,11 +104,11 @@ public class ProjectMapperTest {
         ProjectRequest request = new ProjectRequest();
         request.setName("Updated Project");
         request.setStatus("Cancelado");
-        request.setClientIds(List.of(1L));
+        request.setClientIds(new ArrayList<>(List.of(1L, 2L)));
 
         Client client = mock(Client.class);
         when(client.getId()).thenReturn(1L);
-        List<Client> clientsFromDB = List.of(client);
+        List<Client> clientsFromDB = new ArrayList<>(List.of(client));
 
         Project project = Project.builder().id(1L).name("Old Project").status(ProjectStatus.FINALIZADO)
                 .clients(clientsFromDB).build();
@@ -126,10 +127,10 @@ public class ProjectMapperTest {
         ProjectRequest request = new ProjectRequest();
         request.setName("Updated Project");
         request.setStatus("Cancelado");
-        request.setClientIds(List.of());
+        request.setClientIds(new ArrayList<>());
 
         Client client = mock(Client.class);
-        List<Client> clientsFromDB = List.of(client);
+        List<Client> clientsFromDB = new ArrayList<>(List.of(client));
 
         Project project = Project.builder().id(1L).name("Old Project").status(ProjectStatus.FINALIZADO)
                 .clients(clientsFromDB).build();
@@ -138,6 +139,6 @@ public class ProjectMapperTest {
 
         assertEquals("Updated Project", project.getName());
         assertEquals(ProjectStatus.CANCELADO, project.getStatus());
-        assertNull(project.getClients());
+        assertEquals(new ArrayList<>(), project.getClients());
     }
 }
